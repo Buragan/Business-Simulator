@@ -253,44 +253,86 @@ namespace businessCalculator
                 }
             }
             Console.Clear();
-            Console.SetCursorPosition(2, 2);
-            Console.WriteLine("Month");
-            Console.SetCursorPosition(10, 2);
-            Console.WriteLine("Growth");
-            Console.SetCursorPosition(19, 2);
-            Console.WriteLine("Sales");
-            Console.SetCursorPosition(26, 2);
-            Console.WriteLine("Profit");
-            Console.SetCursorPosition(37, 2);
-            Console.WriteLine("CAC");
-            for (int i = 0; i < month; i++)
+            bool exit = false;
+            int monthcam = 1;
+            int monthstart = 1;
+            while (!exit)
             {
-                Console.SetCursorPosition(4, 4 + (i * 2));
-                Console.WriteLine(i + 1);
+                Console.SetCursorPosition(2, 2);
+                Console.WriteLine("Month");
+                Console.SetCursorPosition(10, 2);
+                Console.WriteLine("Growth");
+                Console.SetCursorPosition(19, 2);
+                Console.WriteLine("Sales");
+                Console.SetCursorPosition(26, 2);
+                Console.WriteLine("Profit");
+                Console.SetCursorPosition(37, 2);
+                Console.WriteLine("CAC");
+                int a = 0;
+                for (int i = monthcam-1; i < monthcam+11; i++)
+                {
+                    if (i + 1 == monthstart)
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    Console.SetCursorPosition(4, 4 + (a * 2));
+                    Console.WriteLine(i + 1);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    if (growthpermon[i] > 0)
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    Console.SetCursorPosition(13, 4 + (a * 2));
+                    Console.WriteLine(growthpermon[i] + "%");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(21, 4 + (a * 2));
+                    Console.WriteLine(salespermon[i]);
+                    Console.SetCursorPosition(29, 4 + (a * 2));
+                    Console.WriteLine(profitpermon[i]);
+                    Console.SetCursorPosition(38, 4 + (a * 2));
+                    Console.WriteLine(cacpermon[i]);
+                    a++;
+                }
+                Console.SetCursorPosition(2, 28);
+                int growthchange = ((salespermon[period - 1] * 100 / salespermon[0]) - 100);
+                Console.Write("Total growth: ");
                 Console.ForegroundColor = ConsoleColor.Red;
-                if (growthpermon[i] > 0)
+                if (growthchange > 0)
                     Console.ForegroundColor = ConsoleColor.Green;
-                Console.SetCursorPosition(13, 4 + (i * 2));
-                Console.WriteLine(growthpermon[i] + "%");
+                Console.Write(growthchange + "%");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(21, 4 + (i * 2));
-                Console.WriteLine(salespermon[i]);
-                Console.SetCursorPosition(29, 4 + (i * 2));
-                Console.WriteLine(profitpermon[i]);
-                Console.SetCursorPosition(38, 4 + (i * 2));
-                Console.WriteLine(cacpermon[i]);
+                Console.SetCursorPosition(30, 28);
+                Console.WriteLine("Total profits: " + (bankaccount - 1000));
+                if (Console.KeyAvailable)
+                {
+                    Console.Clear();
+                    cki = Console.ReadKey(true);
+                    if (cki.Key == ConsoleKey.UpArrow)
+                    {
+                        monthcam--;
+                    }
+                    else if (cki.Key == ConsoleKey.DownArrow)
+                    {
+                        monthcam++;
+                    }
+                    else if (cki.Key == ConsoleKey.Escape)
+                    {
+                        exit = true;
+                    }
+                    if (cki.Key == ConsoleKey.UpArrow && monthstart != 1)
+                    {
+                        monthstart--;
+                    }
+                    else if (cki.Key == ConsoleKey.DownArrow && monthstart != month)
+                    {
+                        monthstart++;
+                    }
+                }
+                if (monthcam == 0)
+                    monthcam = 1;
+                else if (monthcam == month)
+                    monthcam = month - 1;
             }
-            Console.SetCursorPosition(2, 4 + (month * 2));
-            int growthchange = ((salespermon[period - 1] * 100 / salespermon[0]) - 100);
-            Console.Write("Total growth: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            if (growthchange > 0)
-                Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(growthchange + "%");
-            Console.ForegroundColor= ConsoleColor.White;
-            Console.SetCursorPosition(30, 4 + (month * 2));
-            Console.WriteLine("Total profits: " + (bankaccount - 1000));
-            Console.ReadLine();
         }
     }
     
